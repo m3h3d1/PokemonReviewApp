@@ -7,7 +7,7 @@ using PokemonReviewApp.Repository;
 
 namespace PokemonReviewApp.Controllers
 {
-    [Route("api.[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class CategoryController: Controller
     {
@@ -34,7 +34,7 @@ namespace PokemonReviewApp.Controllers
         [ProducesResponseType(200, Type = typeof(Category))]
         [ProducesResponseType(400)]
 
-        public IActionResult GetPokemon(int categoryId)
+        public IActionResult GetCategory(int categoryId)
         {
             if (!_categoryRepository.CategoryExists(categoryId))
                 return NotFound();
@@ -47,16 +47,16 @@ namespace PokemonReviewApp.Controllers
             return Ok(category);
         }
 
-        [HttpGet("pokemon/{categoryId")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Pokemon>))]
+        [HttpGet("pokemon/{categoryId}")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Category>))]
         [ProducesResponseType(400)]
         public IActionResult GetPokemonByCategoryId(int categoryId)
         {
-            var pokemon = _mapper.Map<List<PokemonDto>>(
+            var pokemons = _mapper.Map<List<PokemonDto>>(
                 _categoryRepository.GetPokemonByCategory(categoryId));
             if (!ModelState.IsValid)
                 return BadRequest();
-            return Ok(pokemon);
+            return Ok(pokemons);
         }
     }
 }
